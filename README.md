@@ -6,7 +6,7 @@
 - アホなことを投稿しあう機能と、他の人の投稿にリアクション出来る内容
 
 ## ③DEMO
-特になし
+https://saetag.github.io/chatapp_TS28_dep/
 
 ## ④作ったアプリケーション用のIDまたはPasswordがある場合
 なし
