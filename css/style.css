@@ -1,0 +1,147 @@
+/* 全体のスタイル */
+* {
+  box-sizing: border-box;
+}
+
+/* タイトル部分 */
+h1 {
+  text-align: center;
+  /* 中央揃え */
+  margin: 50px auto;
+  /* 上下中央揃えのためのマージン */
+  font-size: 24px;
+  color: white;
+  background-color: #0073e6;
+  /* 明るい青色の背景 */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  /* タイトル部分に影を追加 */
+  display: block;
+  /* ブロック要素に変更して、中央揃えが効くように */
+  max-width: 600px;
+  /* 最大幅を指定 */
+}
+
+/* メッセージ部分 */
+.headmessage {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 18px;
+  color: #0059b3;
+}
+
+/* ルール部分 */
+.rule {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 18px;
+  color: #0066cc;
+}
+
+/* 入力フォーム */
+input,
+textarea {
+  width: 500px;
+  padding: 10px;
+  display: block;
+  margin: 0 auto 20px;
+  border: 2px solid #0073e6;
+  border-radius: 4px;
+  background-color: #f0f8ff;
+}
+
+textarea {
+  height: 150px;
+  resize: none;
+}
+
+/* ボタン */
+button {
+  width: 200px;
+  height: 50px;
+  margin: 0 auto 20px;
+  display: block;
+  font-size: 16px;
+  color: white;
+  background-color: #0059b3;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #004080;
+}
+
+/* #outputのスタイル */
+#output {
+  width: 500px;
+  display: block;
+  height: 500px;
+  border: 2px solid #0059b3;
+  border-radius: 8px;
+  margin: 20px auto;
+  padding: 10px;
+  background-color: #e6f3ff;
+  overflow-y: auto;
+}
+
+/* 投稿内容のスタイル */
+#output div {
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* 軽い影を追加 */
+}
+
+#output div p {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 10px;
+  /* 投稿とボタンの間に余白を追加 */
+}
+
+#output div p:first-of-type {
+  font-weight: bold;
+  color: #004080;
+}
+
+#output div p:nth-of-type(2) {
+  color: #333333;
+  font-size: 14px;
+}
+
+/* ボタンを投稿内容の下に表示 */
+#output div .buttons {
+  display: flex;
+  justify-content: center;
+  /* 中央揃え */
+  gap: 10px;
+  /* ボタン間の余白 */
+}
+
+#output div button {
+  font-size: 14px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+#output div .delete {
+  background-color: #cc3300;
+}
+
+#output div .aho {
+  background-color: #0073e6;
+}
+
+#output div button:hover {
+  opacity: 0.8;
+}

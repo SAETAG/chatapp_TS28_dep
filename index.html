@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase_version9_RealtimeDB(G'sACADEMY初学者用サンプル)</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="title">
+    <h1>みんなでアホになろう掲示板</h1>
+    </div>
+    
+    <div class="headmessage">
+        <p>今日もお仕事お疲れでした！</p>
+        <p>アホなこと考えて煮詰まった頭をスッキリさせましょう！</p>
+    </div>
+
+    <div class="rule">
+        <p>ルール</p>
+        <p>名前とアホなことを書いてね</p>
+        <p>「こいつアホやな～」と思う発言には「アホ」ボタンを押してね！</p>
+        <p>一番「アホ」票を集めた人の優勝！ ※賞金などはありません。</p>
+    </div>
+
+    <!-- コンテンツ表示画面 -->
+    <div>
+        <!-- 各場所にidを設定しましょう -->
+        <div>
+            <input type="text" id="uname" placeholder="名前を入力してください">
+        </div>
+        <div>
+            <textarea id="text" placeholder="アホなことを書いてください"></textarea>
+        </div>
+        <button id="send">送信</button>
+        <!-- style.cssに "overflow: auto;"を書いてみましょう！※最後に -->
+        <div id="output"></div>
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+        import { getDatabase, ref, push, set, update, onChildAdded, onChildChanged, remove, onChildRemoved }
+        from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+           
+            };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app); //RealtimeDBに接続
+        const dbRef = ref(db, "chat"); //RealtimeDB内の"chat"を使う
+
+        //データ登録(Click)
+            $("#send").on("click", function () {
+                const msg = {
+                    uname: $("#uname").val(),
+                    text: $("#text").val(),
+                    ahoCount: 0
+                }
+                const newPostRef = push(dbRef); //ユニークKEYを生成
+                set(newPostRef, msg);           //"chat"にユニークKEYをつけてオブジェクトデータを登録
+            });
+
+            //最初にデータ取得＆onSnapshotでリアルタイムにデータを取得
+            onChildAdded(dbRef, function (data) {
+                const msg = data.val();    //オブジェクトデータを取得し、変数msgに代入
+                const key = data.key;      //データのユニークキー（削除や更新に使用可能）
+
+                 $("#" + key).find(".aho-count").text(`アホ: ${msg.ahoCount}`);
+
+                //表示用テキスト・HTMLを作成
+                let h = `
+                    <div id="${key}"
+                        <p>${msg.uname}</p>
+                        <p>${msg.text}</p>
+                        <p class="aho-count">アホ: ${msg.ahoCount}</p> <!-- アホカウントを表示 -->
+                        <button class="delete" data-key="${key}">削除</button>
+                        <button class="aho" data-key="${key}">アホ</button>
+                    </div>
+                `;
+                $("#output").append(h); //#outputの最後に追加
+            });
+
+            // 削除ボタンが押されたら投稿内容削除
+            $(document).on("click", ".delete", function () {
+                const key = $(this).data("key"); // 削除ボタンのdata-keyからFirebaseのキーを取得
+                const messageRef = ref(db, "chat/" + key); // データベース内の特定のメッセージの場所を指定
+                remove(messageRef) // Firebaseから削除
+                    .then(() => {
+                            $("#" + key).remove(); // 画面からも削除
+                    })
+            });
+
+
+            // アホボタンが押されたらカウントアップ
+            $(document).on("click", ".aho", function () {
+                const key = $(this).data("key"); // アホボタンのdata-keyからFirebaseのキーを取得
+                const messageRef = ref(db, "chat/" + key); // データベース内の特定のメッセージの場所を指定
+
+               // Firebaseから現在のahoCountを取得して更新
+                get(messageRef).then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const currentData = snapshot.val();
+                        const updatedAhoCount = (currentData.ahoCount || 0) + 1;
+
+                        // Firebaseの ahoCount を更新
+                        update(messageRef, { ahoCount: updatedAhoCount });
+                    }
+                });
+            });
+
+    </script>
+</body>
+
+</html>
