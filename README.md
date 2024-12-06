@@ -8,6 +8,13 @@
 ## ③DEMO
 https://saetag.github.io/chatapp_TS28_dep/
 
+【デモ動画】
+
+
+https://github.com/user-attachments/assets/ff5f4a07-95cf-46fe-82fc-436d082e9f54
+
+
+
 ## ④作ったアプリケーション用のIDまたはPasswordがある場合
 なし
 
